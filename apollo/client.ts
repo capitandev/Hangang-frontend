@@ -71,22 +71,21 @@ function createIsomorphicLink() {
 		});
 
 		// @ts-ignore
-		const link = new createUploadLink({
-			uri: process.env.REACT_APP_API_GRAPHQL_URL,
-		});
+const link = new createUploadLink({
+  uri: 'https://hangakng-1.onrender.com/graphql',  // ← 직접 입력
+});
 
-		/* WEBSOCKET SUBSCRIPTION LINK */
-		const wsLink = new WebSocketLink({
-			uri: process.env.REACT_APP_API_WS ?? 'ws://127.0.0.1:3007',
-			options: {
-				reconnect: false,
-				timeout: 30000,
-				connectionParams: () => {
-					return { headers: getHeaders() };
-				},
-			},
-			webSocketImpl: LoggingWebSocket
-		});
+const wsLink = new WebSocketLink({
+  uri: 'wss://hangakng-1.onrender.com',  // ← 직접 입력 (wss:// 필수!)
+  options: {
+    reconnect: false,
+    timeout: 30000,
+    connectionParams: () => {
+      return { headers: getHeaders() };
+    },
+  },
+  webSocketImpl: LoggingWebSocket
+});
 
 		const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 			if (graphQLErrors) {
