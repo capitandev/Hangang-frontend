@@ -54,7 +54,7 @@ const TuiEditor = () => {
 			);
 			formData.append('0', image);
 
-			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+			const response = await axios.post(`https://hangakng-1.onrender.com/graphql`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					'apollo-require-preflight': true,
