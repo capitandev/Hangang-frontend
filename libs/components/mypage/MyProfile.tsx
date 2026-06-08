@@ -18,7 +18,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
 
 	/** APOLLO REQUESTS **/
-	const[ updateMember] = useMutation(UPDATE_MEMBER)
+	const [updateMember] = useMutation(UPDATE_MEMBER);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -66,6 +66,14 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				},
 			});
 
+			
+			console.log('+response.data:', JSON.stringify(response.data));
+
+			if (response.data.errors) {
+				console.log('+GraphQL errors:', response.data.errors);
+				throw new Error(response.data.errors[0].message);
+			}
+
 			const responseImage = response.data.data.imageUploader;
 			console.log('+responseImage: ', responseImage);
 			updateData.memberImage = responseImage;
@@ -78,24 +86,23 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	};
 
 	const updatePropertyHandler = useCallback(async () => {
-		try{
-			if(!user._id) throw new Error(Messages.error2);
+		try {
+			if (!user._id) throw new Error(Messages.error2);
 			updateData._id = user._id;
 			const result = await updateMember({
-			 variables: {
-			  input: updateData,
-			 },
+				variables: {
+					input: updateData,
+				},
 			});
-			
-			
+
 			// @ts-ignore
 			const jwtToken = result.data.updateMember?.accessToken;
 			await updateStorage({ jwtToken });
 			updateUserInfo(result.data.updateMember?.accessToken);
-			await sweetMixinSuccessAlert("Information siccessfully update!");
-		   }catch(err: any){
+			await sweetMixinSuccessAlert('Information successfully updated!');
+		} catch (err: any) {
 			sweetErrorHandling(err).then();
-		   }
+		}
 	}, [updateData]);
 
 	const doDisabledCheck = () => {
