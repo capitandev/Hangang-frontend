@@ -308,7 +308,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'sub-images'}>
 									{property?.propertyImages.map((subImg: string) => {
-										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
+										const imagePath: string = subImg?.startsWith('http') ? subImg : `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
 												<img src={imagePath} alt={'sub-image'} />

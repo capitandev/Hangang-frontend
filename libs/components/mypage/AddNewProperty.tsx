@@ -497,7 +497,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							</Stack>
 							<Stack className="gallery-box">
 								{insertPropertyData?.propertyImages.map((image: string) => {
-									const imagePath: string = `${REACT_APP_API_URL}/${image}`;
+									const imagePath: string = image?.startsWith('http') ? image : `${REACT_APP_API_URL}/${image}`;
 									return (
 										<Stack className="image-box">
 											<img src={imagePath} alt="" />
